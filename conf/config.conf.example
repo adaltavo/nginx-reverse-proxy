@@ -1,0 +1,29 @@
+# Add one file like this for every hostname you want to redirect this reverse proxy to.
+server {
+    listen 80;
+    # Change yourdomain to your actual domain
+    server_name yourdomain.com www.yourdomain.com;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    # Change yourdomain to your actual domain
+    server_name yourdomain.com www.yourdomain.com;
+
+    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
+
+    location / {
+      # Change another_hostname and port_of_your_hostname to your actual host and port for the redirection
+        proxy_pass http://another_hostname:port_of_your_hostname;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}

@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+
+  nginx:
+    build: ./
+    container_name: nginx-reverse-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./conf:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+    networks:
+      - nginx-proxy
+
+networks:
+  nginx-proxy:
+    driver: bridge
