@@ -20,4 +20,5 @@ services:
 
 networks:
   nginx-proxy:
+    name: nginx-proxy
     driver: bridge
