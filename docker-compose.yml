@@ -10,8 +10,13 @@ services:
     volumes:
       - ./conf:/etc/nginx/conf.d
       - /etc/letsencrypt:/etc/letsencrypt
+      - ./templates:/etc/nginx/templates
     networks:
       - nginx-proxy
+    environment:
+      - HTTP_PORT=80
+      - HTTPS_PORT=443
+      - DOMAIN_NAME=mydomain.com
 
 networks:
   nginx-proxy:
